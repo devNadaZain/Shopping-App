@@ -107,6 +107,12 @@ abstract class AppLocalizations {
   /// **'Shopping App'**
   String get welcomeTitle;
 
+  /// No description provided for @welcomeSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover amazing products and exclusive deals'**
+  String get welcomeSubtitle;
+
   /// No description provided for @signUp.
   ///
   /// In en, this message translates to:

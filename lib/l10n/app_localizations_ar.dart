@@ -15,6 +15,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get welcomeTitle => 'تطبيق التسوق';
 
   @override
+  String get welcomeSubtitle => 'اكتشف منتجات رائعة وعروض حصرية';
+
+  @override
   String get signUp => 'تسجيل جديد';
 
   @override

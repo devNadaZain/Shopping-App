@@ -15,6 +15,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get welcomeTitle => 'Shopping App';
 
   @override
+  String get welcomeSubtitle => 'Discover amazing products and exclusive deals';
+
+  @override
   String get signUp => 'Sign Up';
 
   @override
