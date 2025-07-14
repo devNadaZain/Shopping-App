@@ -12,7 +12,7 @@ class AnimatedButton extends StatefulWidget {
   final IconData? icon;
 
   const AnimatedButton({
-    Key? key,
+    super.key,
     required this.onPressed,
     required this.child,
     this.backgroundColor,
@@ -22,7 +22,7 @@ class AnimatedButton extends StatefulWidget {
     this.borderRadius,
     this.padding,
     this.icon,
-  }) : super(key: key);
+  });
 
   @override
   State<AnimatedButton> createState() => _AnimatedButtonState();

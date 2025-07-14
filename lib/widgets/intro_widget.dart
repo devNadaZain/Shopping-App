@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 
 class IntroWidget extends StatelessWidget {
-  const IntroWidget({Key? key}) : super(key: key);
+  const IntroWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

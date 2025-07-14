@@ -6,11 +6,11 @@ class ShimmerLoading extends StatefulWidget {
   final Color? highlightColor;
 
   const ShimmerLoading({
-    Key? key,
+    super.key,
     required this.child,
     this.baseColor,
     this.highlightColor,
-  }) : super(key: key);
+  });
 
   @override
   State<ShimmerLoading> createState() => _ShimmerLoadingState();
@@ -68,11 +68,11 @@ class ShimmerCard extends StatelessWidget {
   final double borderRadius;
 
   const ShimmerCard({
-    Key? key,
+    super.key,
     this.height = 100,
     this.width = double.infinity,
     this.borderRadius = 12,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
