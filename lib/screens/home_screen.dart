@@ -7,88 +7,115 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
-    final categories = ['All', 'Pizza', 'Burger', 'Dessert', 'Drinks', 'Salad'];
-    // Sample food items with categories and real food images
+    final categories = ['All', 'Pasta', 'Pizza', 'Dessert', 'Drinks', 'Salad'];
     final products = [
+      {
+        'title': 'Spaghetti Carbonara',
+        'image':
+            'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&w=400',
+        'price': ' 19.99',
+        'category': 'Pasta',
+        'isAsset': false,
+      },
+      {
+        'title': 'Penne Arrabbiata',
+        'image':
+            'https://tastesbetterfromscratch.com/wp-content/uploads/2020/03/Penne-Arrabbiata-1-2.jpg',
+        'price': ' 17.99',
+        'category': 'Pasta',
+        'isAsset': false,
+      },
       {
         'title': 'Margherita Pizza',
         'image':
-            'https://images.pexels.com/photos/1437267/pexels-photo-1437267.jpeg?auto=compress&w=400', // Margherita pizza
+            'https://www.foodandwine.com/thmb/3kzG4PWOAgZIIfZwMBLKqoTkaGQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/margherita-pizza-with-argula-and-prosciutto-FT-RECIPE0721-04368ec288a84d2e997573aca0001d98.jpg',
         'price': ' 29.99',
         'category': 'Pizza',
+        'isAsset': false,
       },
       {
         'title': 'Pepperoni Pizza',
         'image':
-            'https://images.pexels.com/photos/4109126/pexels-photo-4109126.jpeg?auto=compress&w=400', // Pepperoni pizza
+            'https://fantinomondello.ca/wp-content/uploads/2021/02/pepperoni_cheese_pizza.jpg',
         'price': ' 34.99',
         'category': 'Pizza',
-      },
-      {
-        'title': 'Classic Burger',
-        'image':
-            'https://images.pexels.com/photos/1639562/pexels-photo-1639562.jpeg?auto=compress&w=400', // Classic burger
-        'price': ' 24.99',
-        'category': 'Burger',
-      },
-      {
-        'title': 'Cheese Burger',
-        'image':
-            'https://images.pexels.com/photos/161674/appetite-beef-big-bread-161674.jpeg?auto=compress&w=400', // Cheese burger
-        'price': ' 26.99',
-        'category': 'Burger',
+        'isAsset': false,
       },
       {
         'title': 'Chocolate Cake',
         'image':
-            'https://images.pexels.com/photos/533325/pexels-photo-533325.jpeg?auto=compress&w=400', // Chocolate cake
+            'https://assets.epicurious.com/photos/56f302b316f9f5a007cc1796/master/pass/chocllate-cake.jpg',
         'price': ' 12.99',
         'category': 'Dessert',
+        'isAsset': false,
       },
       {
-        'title': 'Strawberry Dessert',
+        'title': 'Strawberry Cheesecake',
         'image':
-            'https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&w=400', // Strawberry dessert
+            'https://www.splenda.com/wp-content/themes/bistrotheme/assets/recipe-images/strawberry-topped-cheesecake.jpg',
         'price': ' 14.99',
         'category': 'Dessert',
+        'isAsset': false,
       },
       {
         'title': 'Fresh Orange Juice',
         'image':
-            'https://images.pexels.com/photos/96974/pexels-photo-96974.jpeg?auto=compress&w=400', // Orange juice
+            'https://images.pexels.com/photos/96974/pexels-photo-96974.jpeg?auto=compress&w=400',
         'price': ' 5.99',
         'category': 'Drinks',
+        'isAsset': false,
       },
       {
         'title': 'Iced Coffee',
         'image':
-            'https://images.pexels.com/photos/302902/pexels-photo-302902.jpeg?auto=compress&w=400', // Iced coffee
+            'https://www.coffeetech.com/media/img/products/secondary/Ice-moca-coffee-distribuidor-hosteleria-cafe-chocolate.webp',
         'price': ' 6.99',
         'category': 'Drinks',
+        'isAsset': false,
       },
       {
         'title': 'Caesar Salad',
         'image':
-            'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&w=400', // Caesar salad
+            'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&w=400',
         'price': ' 10.99',
         'category': 'Salad',
+        'isAsset': false,
       },
       {
         'title': 'Greek Salad',
-        'image':
-            'https://images.pexels.com/photos/1435893/pexels-photo-1435893.jpeg?auto=compress&w=400', // Greek salad
+        'asset': 'assets/images/the-perfect-greek-salad-7 (1).jpg',
         'price': ' 11.99',
         'category': 'Salad',
+        'isAsset': true,
       },
     ];
+
+    Widget buildProductImage(Map<String, dynamic> product, {double? height}) {
+      if (product['isAsset'] == true) {
+        return Image.asset(
+          product['asset'],
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: height,
+        );
+      } else {
+        return Image.network(
+          product['image'],
+          fit: BoxFit.cover,
+          width: double.infinity,
+          height: height,
+        );
+      }
+    }
+
     // State for selected category
     final ValueNotifier<String> selectedCategory = ValueNotifier('All');
     // Filtered products by selected category
-    List<Map<String, String>> filteredProducts(String category) {
-      if (category == 'All') return products.cast<Map<String, String>>();
+    List<Map<String, dynamic>> filteredProducts(String category) {
+      if (category == 'All') return products.cast<Map<String, dynamic>>();
       return products
           .where((p) => p['category'] == category)
-          .cast<Map<String, String>>()
+          .cast<Map<String, dynamic>>()
           .toList();
     }
 
@@ -289,6 +316,20 @@ class HomeScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              // Show selected category name
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 8.0,
+                                ),
+                                child: Text(
+                                  value == 'All' ? 'All Food Items' : value,
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xFF6366F1),
+                                  ),
+                                ),
+                              ),
                               // Featured Products PageView
                               if (filtered.isNotEmpty) ...[
                                 Container(
@@ -319,11 +360,9 @@ class HomeScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(24),
                                         child: Stack(
                                           children: [
-                                            Image.network(
-                                              filtered[i]['image']!,
-                                              width: double.infinity,
+                                            buildProductImage(
+                                              filtered[i],
                                               height: double.infinity,
-                                              fit: BoxFit.cover,
                                             ),
                                             Align(
                                               alignment: Alignment.bottomCenter,
@@ -490,9 +529,10 @@ class HomeScreen extends StatelessWidget {
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
-                                      mainAxisSpacing: 16,
-                                      crossAxisSpacing: 16,
-                                      childAspectRatio: 0.75,
+                                      mainAxisSpacing: 12,
+                                      crossAxisSpacing: 12,
+                                      childAspectRatio:
+                                          1.3, // even more compact cards
                                     ),
                                 itemBuilder: (context, i) => Container(
                                   decoration: BoxDecoration(
@@ -511,7 +551,9 @@ class HomeScreen extends StatelessWidget {
                                       Expanded(
                                         flex: 3,
                                         child: Container(
-                                          margin: const EdgeInsets.all(12),
+                                          margin: const EdgeInsets.all(
+                                            8,
+                                          ), // reduced margin
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(
                                               16,
@@ -530,97 +572,98 @@ class HomeScreen extends StatelessWidget {
                                             borderRadius: BorderRadius.circular(
                                               16,
                                             ),
-                                            child: Image.network(
-                                              filtered[i]['image']!,
-                                              width: double.infinity,
-                                              height: 100,
-                                              fit: BoxFit.cover,
+                                            child: buildProductImage(
+                                              filtered[i],
+                                              height: 60, // smaller image
                                             ),
                                           ),
                                         ),
                                       ),
-                                      Expanded(
-                                        flex: 2,
-                                        child: Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 12,
-                                          ),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                filtered[i]['title']!,
-                                                style: const TextStyle(
-                                                  color: Color(0xFF1F2937),
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 14,
-                                                ),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 8,
+                                        ), // reduced padding
+                                        child: Column(
+                                          mainAxisSize:
+                                              MainAxisSize.min, // Hug content
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              filtered[i]['title']!,
+                                              style: const TextStyle(
+                                                color: Color(0xFF1F2937),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12, // smaller font
                                               ),
-                                              const SizedBox(height: 4),
-                                              Text(
-                                                filtered[i]['price']!,
-                                                style: const TextStyle(
-                                                  color: Color(0xFF6366F1),
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 16,
-                                                ),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            const SizedBox(height: 2),
+                                            Text(
+                                              filtered[i]['price']!,
+                                              style: const TextStyle(
+                                                color: Color(0xFF6366F1),
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 12, // smaller font
                                               ),
-                                              const SizedBox(height: 8),
-                                              SizedBox(
-                                                width: double.infinity,
-                                                child: ElevatedButton.icon(
-                                                  onPressed: () {
-                                                    ScaffoldMessenger.of(
-                                                      context,
-                                                    ).showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(
-                                                          l.itemAdded,
-                                                        ),
-                                                        backgroundColor:
-                                                            const Color(
-                                                              0xFF6366F1,
-                                                            ),
-                                                        behavior:
-                                                            SnackBarBehavior
-                                                                .floating,
-                                                        shape: RoundedRectangleBorder(
-                                                          borderRadius:
-                                                              BorderRadius.circular(
-                                                                12,
-                                                              ),
-                                                        ),
+                                            ),
+                                            const SizedBox(height: 3),
+                                            SizedBox(
+                                              width: double.infinity,
+                                              child: ElevatedButton.icon(
+                                                onPressed: () {
+                                                  ScaffoldMessenger.of(
+                                                    context,
+                                                  ).showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        l.itemAdded,
                                                       ),
-                                                    );
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.add_shopping_cart,
-                                                    size: 16,
-                                                  ),
-                                                  label: const Text('Add'),
-                                                  style: ElevatedButton.styleFrom(
-                                                    backgroundColor:
-                                                        const Color(0xFF6366F1),
-                                                    foregroundColor:
-                                                        Colors.white,
-                                                    padding:
-                                                        const EdgeInsets.symmetric(
-                                                          vertical: 8,
-                                                        ),
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            12,
+                                                      backgroundColor:
+                                                          const Color(
+                                                            0xFF6366F1,
                                                           ),
+                                                      behavior: SnackBarBehavior
+                                                          .floating,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius.circular(
+                                                              12,
+                                                            ),
+                                                      ),
                                                     ),
+                                                  );
+                                                },
+                                                icon: const Icon(
+                                                  Icons.add_shopping_cart,
+                                                  size: 12, // smaller icon
+                                                ),
+                                                label: const Text(
+                                                  'Add',
+                                                  style: TextStyle(
+                                                    fontSize: 11,
+                                                  ),
+                                                ),
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: const Color(
+                                                    0xFF6366F1,
+                                                  ),
+                                                  foregroundColor: Colors.white,
+                                                  padding:
+                                                      const EdgeInsets.symmetric(
+                                                        vertical: 4,
+                                                      ),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          12,
+                                                        ),
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ],
