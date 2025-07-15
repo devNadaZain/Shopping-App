@@ -1,12 +1,12 @@
-# 🛒 Shopping App X
+# 🛒 Shopping App
 
-A beautiful, modern, and fully localized shopping app built with Flutter and Dart. This project demonstrates best practices in UI/UX, form validation, navigation, and internationalization (English & Arabic). Perfect for learning or as a foundation for your next e-commerce project!
+A beautiful, modern, and fully localized shopping app built with Flutter and Dart. This project demonstrates best practices in UI/UX, theming, form validation, navigation, and internationalization (English & Arabic).
 
 ---
 
 ## 🌟 Project Overview
 
-Shopping App X is a cross-platform mobile application that provides a seamless shopping experience. It features a stunning welcome screen, secure sign-up/sign-in, animated navigation, a dynamic product catalog, and full Arabic language support. The codebase is modular, clean, and ready for extension.
+Shopping App is a cross-platform mobile application that provides a seamless shopping experience. It features a stunning welcome screen, secure sign-up/sign-in, animated navigation, a dynamic product catalog, full Arabic language support, and robust light/dark mode theming. The codebase is modular, clean, and ready for extension.
 
 ---
 
@@ -30,12 +30,29 @@ Shopping App X is a cross-platform mobile application that provides a seamless s
   - Hot Offers section (ListView, images, descriptions)
 - **Localization & RTL Support**
   - English and Arabic via `.arb` files and `intl`
-  - All UI text is localized (no hardcoded strings)
+  - All UI text, product names, and headers are localized (no hardcoded strings)
   - RTL layout for Arabic
-- **Clean Codebase**
+  - Language switch button on all screens for instant locale switching
+- **Theme & Dark Mode**
+  - Light and dark themes with fully theme-based coloring for all widgets, cards, backgrounds, and dialogs
+  - Theme switcher button (light/dark) on all screens
+  - All colors and text adapt instantly to theme changes
+  - AppBar, cards, containers, and all UI elements use theme colors (no hardcoded backgrounds)
+- **Clean, Modular Codebase**
   - Each widget/class in a separate file
   - No unused or duplicated code
   - Clear naming and formatting
+  - Uses best practices for localization and theming
+
+---
+
+## 🆕 Recent Enhancements
+
+- **Language Switch Button:** Instantly switch between English and Arabic from any screen. All text, product names, and headers update immediately.
+- **Theme Switcher:** Toggle between light and dark mode from any screen. All backgrounds, cards, and widgets adapt to the selected theme.
+- **Full Dark Mode Support:** Every widget, card, and dialog uses true dark colors in dark mode. No hardcoded light backgrounds remain.
+- **Dynamic RTL Layout:** The app layout and navigation adapt automatically for Arabic (RTL) and English (LTR).
+- **Theme & Localization Best Practices:** All colors and text use the current theme and locale, ensuring a consistent and accessible experience.
 
 ---
 
@@ -60,10 +77,11 @@ Shopping App X is a cross-platform mobile application that provides a seamless s
    flutter run
    ```
 
-4. **Switch language:**
+4. **Switch language or theme:**
 
-   - Change your device/emulator language to Arabic to see RTL and Arabic text.
-   - All UI and validation messages will appear in Arabic automatically.
+   - Use the language and theme switch buttons in the app bar on any screen.
+   - All UI and validation messages will appear in the selected language instantly.
+   - All colors and backgrounds will adapt to the selected theme instantly.
 
 5. **Assets & Fonts:**
    - All required assets and fonts are included in the repository.
@@ -77,8 +95,8 @@ lib/
   main.dart
   app.dart
   l10n/
-    intl_en.arb
-    intl_ar.arb
+    app_en.arb
+    app_ar.arb
     app_localizations.dart
   screens/
     welcome_screen.dart
@@ -87,8 +105,11 @@ lib/
     home_screen.dart
   widgets/
     intro_widget.dart
+    animated_button.dart
+    shimmer_loading.dart
   utils/
     fade_route.dart
+    animated_route.dart
 assets/
   images/
     local_image.png
@@ -100,10 +121,10 @@ assets/
 
 ## ✨ Screenshots
 
-> _Add screenshots here to showcase the UI in both English and Arabic!_
+> \_\_
 
 ---
-
+s
 ## 📢 Credits
 
 - Built with [Flutter](https://flutter.dev/) & [Dart](https://dart.dev/)
@@ -112,6 +133,7 @@ assets/
 
 ---
 
-## 💡 License
+## 📜 License
 
-This project is open source and free to use for learning and development.
+This project is licensed under the **MIT License**.  
+See the [LICENSE](LICENSE) file for full details.
