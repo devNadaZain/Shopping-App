@@ -61,7 +61,7 @@ Shopping App is a cross-platform mobile application that provides a seamless sho
 1. **Clone the repository:**
 
    ```sh
-   git clone <your-repo-url>
+   git clone <https://github.com/devNadaZain/Shopping-App>
    cd shopping_app_x
    ```
 
@@ -124,7 +124,6 @@ assets/
 > \_\_
 
 ---
-s
 ## 📢 Credits
 
 - Built with [Flutter](https://flutter.dev/) & [Dart](https://dart.dev/)
