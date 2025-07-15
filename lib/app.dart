@@ -2,19 +2,34 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'l10n/app_localizations.dart';
 import 'screens/welcome_screen.dart';
+import 'screens/home_screen.dart';
 
 void main() {
   runApp(const ShoppingApp());
 }
 
-class ShoppingApp extends StatelessWidget {
+class ShoppingApp extends StatefulWidget {
   const ShoppingApp({super.key});
+
+  @override
+  State<ShoppingApp> createState() => _ShoppingAppState();
+}
+
+class _ShoppingAppState extends State<ShoppingApp> {
+  Locale _locale = const Locale('en');
+
+  void _setLocale(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Shopping App',
       debugShowCheckedModeBanner: false,
+      locale: _locale,
 
       // Enhanced localization setup
       localizationsDelegates: const [
@@ -186,7 +201,7 @@ class ShoppingApp extends StatelessWidget {
         ),
       ),
 
-      home: const WelcomeScreen(),
+      home: WelcomeScreen(onLocaleChange: _setLocale),
     );
   }
 }

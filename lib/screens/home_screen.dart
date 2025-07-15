@@ -1,8 +1,46 @@
 import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  final void Function(Locale) onLocaleChange;
+  const HomeScreen({Key? key, required this.onLocaleChange}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late ValueNotifier<String> selectedCategory;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedCategory = ValueNotifier('All');
+  }
+
+  @override
+  void dispose() {
+    selectedCategory.dispose();
+    super.dispose();
+  }
+
+  Widget buildProductImage(Map<String, dynamic> product, {double? height}) {
+    if (product['isAsset'] == true) {
+      return Image.asset(
+        product['asset'],
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: height,
+      );
+    } else {
+      return Image.network(
+        product['image'],
+        fit: BoxFit.cover,
+        width: double.infinity,
+        height: height,
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,27 +128,6 @@ class HomeScreen extends StatelessWidget {
       },
     ];
 
-    Widget buildProductImage(Map<String, dynamic> product, {double? height}) {
-      if (product['isAsset'] == true) {
-        return Image.asset(
-          product['asset'],
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: height,
-        );
-      } else {
-        return Image.network(
-          product['image'],
-          fit: BoxFit.cover,
-          width: double.infinity,
-          height: height,
-        );
-      }
-    }
-
-    // State for selected category
-    final ValueNotifier<String> selectedCategory = ValueNotifier('All');
-    // Filtered products by selected category
     List<Map<String, dynamic>> filteredProducts(String category) {
       if (category == 'All') return products.cast<Map<String, dynamic>>();
       return products
@@ -128,6 +145,7 @@ class HomeScreen extends StatelessWidget {
         'discount': '${20 + i * 5}% OFF',
       },
     );
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -239,6 +257,31 @@ class HomeScreen extends StatelessWidget {
                             child: const Icon(
                               Icons.search,
                               color: Color(0xFF6366F1),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF1F5F9),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.language,
+                                color: Color(0xFF6366F1),
+                              ),
+                              tooltip: 'Switch Language',
+                              onPressed: () {
+                                final isEnglish =
+                                    Localizations.localeOf(
+                                      context,
+                                    ).languageCode ==
+                                    'en';
+                                widget.onLocaleChange(
+                                  Locale(isEnglish ? 'ar' : 'en'),
+                                );
+                              },
                             ),
                           ),
                         ],
@@ -455,7 +498,9 @@ class HomeScreen extends StatelessWidget {
                                                           ).showSnackBar(
                                                             SnackBar(
                                                               content: Text(
-                                                                l.itemAdded,
+                                                                AppLocalizations.of(
+                                                                  context,
+                                                                )!.itemAdded,
                                                               ),
                                                               backgroundColor:
                                                                   const Color(
@@ -618,7 +663,9 @@ class HomeScreen extends StatelessWidget {
                                                   ).showSnackBar(
                                                     SnackBar(
                                                       content: Text(
-                                                        l.itemAdded,
+                                                        AppLocalizations.of(
+                                                          context,
+                                                        )!.itemAdded,
                                                       ),
                                                       backgroundColor:
                                                           const Color(
@@ -687,7 +734,7 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 12),
                                   Text(
-                                    l.hotOffers,
+                                    AppLocalizations.of(context)!.hotOffers,
                                     style: const TextStyle(
                                       fontSize: 22,
                                       fontWeight: FontWeight.bold,

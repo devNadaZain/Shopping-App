@@ -7,7 +7,9 @@ import 'signup_screen.dart';
 import 'signin_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
-  const WelcomeScreen({super.key});
+  final void Function(Locale) onLocaleChange;
+  const WelcomeScreen({Key? key, required this.onLocaleChange})
+    : super(key: key);
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
@@ -139,6 +141,27 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   ),
                 ),
               ),
+              // Language switch button (top right)
+              Positioned(
+                top: 16,
+                right: 16,
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF1F5F9),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.language, color: Color(0xFF6366F1)),
+                    tooltip: 'Switch Language',
+                    onPressed: () {
+                      final isEnglish =
+                          Localizations.localeOf(context).languageCode == 'en';
+                      widget.onLocaleChange(Locale(isEnglish ? 'ar' : 'en'));
+                    },
+                  ),
+                ),
+              ),
               // Main content
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -242,7 +265,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               onPressed: () {
                                 Navigator.of(context).push(
                                   SlideRoute(
-                                    page: const SignUpScreen(),
+                                    page: SignUpScreen(
+                                      onLocaleChange: widget.onLocaleChange,
+                                    ),
                                     direction: SlideDirection.right,
                                   ),
                                 );
@@ -285,7 +310,9 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               onPressed: () {
                                 Navigator.of(context).push(
                                   SlideRoute(
-                                    page: const SignInScreen(),
+                                    page: SignInScreen(
+                                      onLocaleChange: widget.onLocaleChange,
+                                    ),
                                     direction: SlideDirection.right,
                                   ),
                                 );

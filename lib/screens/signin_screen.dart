@@ -6,7 +6,9 @@ import 'home_screen.dart';
 import '../l10n/app_localizations.dart';
 
 class SignInScreen extends StatefulWidget {
-  const SignInScreen({super.key});
+  final void Function(Locale) onLocaleChange;
+  const SignInScreen({Key? key, required this.onLocaleChange})
+    : super(key: key);
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -115,7 +117,9 @@ class _SignInScreenState extends State<SignInScreen> {
                       Navigator.of(context).pop();
                       Navigator.of(context).pushReplacement(
                         SlideRoute(
-                          page: const HomeScreen(),
+                          page: HomeScreen(
+                            onLocaleChange: widget.onLocaleChange,
+                          ),
                           direction: SlideDirection.right,
                         ),
                       );
@@ -251,125 +255,158 @@ class _SignInScreenState extends State<SignInScreen> {
           ),
         ),
         child: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(24),
-            child: Column(
-              children: [
-                const SizedBox(height: 20),
-                Row(
+          child: Stack(
+            children: [
+              // Main content
+              SingleChildScrollView(
+                padding: const EdgeInsets.all(24),
+                child: Column(
                   children: [
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.05),
+                                blurRadius: 10,
+                                offset: const Offset(0, 5),
+                              ),
+                            ],
+                          ),
+                          child: IconButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            icon: const Icon(
+                              Icons.arrow_back_ios_new,
+                              color: Color(0xFF374151),
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          l.signIn,
+                          style: const TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF1F2937),
+                            letterSpacing: -0.5,
+                          ),
+                        ),
+                        const Spacer(),
+                        const SizedBox(width: 48),
+                      ],
+                    ),
+                    const SizedBox(height: 40),
                     Container(
+                      padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [Colors.white, Colors.white.withOpacity(0.9)],
+                        ),
+                        borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.05),
-                            blurRadius: 10,
-                            offset: const Offset(0, 5),
+                            blurRadius: 20,
+                            offset: const Offset(0, 10),
                           ),
                         ],
                       ),
-                      child: IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        icon: const Icon(
-                          Icons.arrow_back_ios_new,
-                          color: Color(0xFF374151),
-                          size: 20,
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    Text(
-                      l.signIn,
-                      style: const TextStyle(
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1F2937),
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                    const Spacer(),
-                    const SizedBox(width: 48),
-                  ],
-                ),
-                const SizedBox(height: 40),
-                Container(
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [Colors.white, Colors.white.withOpacity(0.9)],
-                    ),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 20,
-                        offset: const Offset(0, 10),
-                      ),
-                    ],
-                  ),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        _buildTextField(
-                          controller: _emailController,
-                          label: l.email,
-                          hint: l.enterEmail,
-                          icon: Icons.email_outlined,
-                          keyboardType: TextInputType.emailAddress,
-                          validator: _validateEmail,
-                        ),
-                        const SizedBox(height: 20),
-                        _buildTextField(
-                          controller: _passwordController,
-                          label: l.password,
-                          hint: l.enterPassword,
-                          icon: Icons.lock_outline,
-                          isPassword: true,
-                          validator: _validatePassword,
-                        ),
-                        const SizedBox(height: 40),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            onPressed: _submit,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF6366F1),
-                              foregroundColor: Colors.white,
-                              elevation: 0,
-                              padding: const EdgeInsets.symmetric(vertical: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            _buildTextField(
+                              controller: _emailController,
+                              label: l.email,
+                              hint: l.enterEmail,
+                              icon: Icons.email_outlined,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: _validateEmail,
                             ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(Icons.login_outlined, size: 24),
-                                const SizedBox(width: 12),
-                                Text(
-                                  l.signIn,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    letterSpacing: 0.5,
+                            const SizedBox(height: 20),
+                            _buildTextField(
+                              controller: _passwordController,
+                              label: l.password,
+                              hint: l.enterPassword,
+                              icon: Icons.lock_outline,
+                              isPassword: true,
+                              validator: _validatePassword,
+                            ),
+                            const SizedBox(height: 40),
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: _submit,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: const Color(0xFF6366F1),
+                                  foregroundColor: Colors.white,
+                                  elevation: 0,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
                                   ),
                                 ),
-                              ],
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Icon(Icons.login_outlined, size: 24),
+                                    const SizedBox(width: 12),
+                                    Text(
+                                      l.signIn,
+                                      style: const TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
+                    const SizedBox(height: 40),
+                  ],
+                ),
+              ),
+              // Language switch button (top right)
+              Positioned(
+                top: 16,
+                left: Directionality.of(context) == TextDirection.rtl
+                    ? 16
+                    : null,
+                right: Directionality.of(context) == TextDirection.ltr
+                    ? 16
+                    : null,
+                child: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF1F5F9),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: IconButton(
+                    icon: const Icon(Icons.language, color: Color(0xFF6366F1)),
+                    tooltip: 'Switch Language',
+                    onPressed: () {
+                      final isEnglish =
+                          Localizations.localeOf(context).languageCode == 'en';
+                      widget.onLocaleChange(Locale(isEnglish ? 'ar' : 'en'));
+                    },
                   ),
                 ),
-                const SizedBox(height: 40),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
