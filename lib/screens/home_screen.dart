@@ -3,7 +3,12 @@ import '../l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   final void Function(Locale) onLocaleChange;
-  const HomeScreen({Key? key, required this.onLocaleChange}) : super(key: key);
+  final void Function(ThemeMode) onThemeModeChange;
+  const HomeScreen({
+    Key? key,
+    required this.onLocaleChange,
+    required this.onThemeModeChange,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -154,56 +159,49 @@ class _HomeScreenState extends State<HomeScreen> {
     );
 
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              const Color(0xFFF8FAFC),
-              const Color(0xFFF1F5F9),
-              const Color(0xFFE2E8F0),
-            ],
-          ),
-        ),
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: SafeArea(
           child: Stack(
             children: [
-              // Soft blurred decorative circles
-              Positioned(
-                top: -60,
-                left: -60,
-                child: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xFF6366F1).withOpacity(0.12),
-                        const Color(0xFF8B5CF6).withOpacity(0.10),
-                      ],
+              // Decorative circles: use dark colors in dark mode
+              if (Theme.of(context).brightness == Brightness.light) ...[
+                Positioned(
+                  top: -60,
+                  left: -60,
+                  child: Container(
+                    width: 180,
+                    height: 180,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [
+                          const Color(0xFF6366F1).withOpacity(0.12),
+                          const Color(0xFF8B5CF6).withOpacity(0.10),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                bottom: -80,
-                right: -80,
-                child: Container(
-                  width: 220,
-                  height: 220,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xFF6366F1).withOpacity(0.10),
-                        const Color(0xFF8B5CF6).withOpacity(0.08),
-                      ],
+                Positioned(
+                  bottom: -80,
+                  right: -80,
+                  child: Container(
+                    width: 220,
+                    height: 220,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [
+                          const Color(0xFF6366F1).withOpacity(0.10),
+                          const Color(0xFF8B5CF6).withOpacity(0.08),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
               // Main content
               Column(
                 children: [
@@ -216,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         vertical: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
@@ -248,17 +246,17 @@ class _HomeScreenState extends State<HomeScreen> {
                           const SizedBox(width: 12),
                           Text(
                             l.headerFoodMenu,
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: Color(0xFF1F2937),
+                              color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
                           const Spacer(),
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF1F5F9),
+                              color: Theme.of(context).cardColor,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: const Icon(
@@ -270,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Container(
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFF1F5F9),
+                              color: Theme.of(context).cardColor,
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: IconButton(
@@ -287,6 +285,31 @@ class _HomeScreenState extends State<HomeScreen> {
                                     'en';
                                 widget.onLocaleChange(
                                   Locale(isEnglish ? 'ar' : 'en'),
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: IconButton(
+                              icon: Icon(
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Icons.dark_mode
+                                    : Icons.light_mode,
+                                color: const Color(0xFF6366F1),
+                              ),
+                              tooltip: 'Switch Theme',
+                              onPressed: () {
+                                widget.onThemeModeChange(
+                                  Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? ThemeMode.light
+                                      : ThemeMode.dark,
                                 );
                               },
                             ),
@@ -323,15 +346,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 decoration: BoxDecoration(
                                   color: isSelected
-                                      ? const Color(0xFF6366F1)
-                                      : Colors.white,
+                                      ? Theme.of(context).colorScheme.primary
+                                      : Theme.of(context).cardColor,
                                   borderRadius: BorderRadius.circular(16),
                                   boxShadow: isSelected
                                       ? [
                                           BoxShadow(
-                                            color: const Color(
-                                              0xFF6366F1,
-                                            ).withOpacity(0.15),
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary
+                                                .withOpacity(0.15),
                                             blurRadius: 8,
                                             offset: const Offset(0, 4),
                                           ),
@@ -342,8 +366,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   categories[i],
                                   style: TextStyle(
                                     color: isSelected
-                                        ? Colors.white
-                                        : const Color(0xFF6366F1),
+                                        ? Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary
+                                        : Theme.of(context).colorScheme.primary,
                                     fontWeight: FontWeight.w600,
                                     fontSize: 16,
                                   ),
@@ -375,10 +401,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   value == l.categoryAll
                                       ? l.headerAllFoodItems
                                       : value,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
-                                    color: Color(0xFF6366F1),
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
                                   ),
                                 ),
                               ),
@@ -396,7 +424,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         horizontal: 8,
                                       ),
                                       decoration: BoxDecoration(
-                                        color: Colors.white,
+                                        color: Theme.of(context).cardColor,
                                         borderRadius: BorderRadius.circular(24),
                                         boxShadow: [
                                           BoxShadow(
@@ -464,15 +492,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         children: [
                                                           Text(
                                                             filtered[i]['title']!,
-                                                            style:
-                                                                const TextStyle(
-                                                                  color: Colors
-                                                                      .white,
-                                                                  fontSize: 18,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                ),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
+                                                                      .colorScheme
+                                                                      .onSurface,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                            ),
                                                             maxLines: 1,
                                                             overflow:
                                                                 TextOverflow
@@ -483,16 +514,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           ),
                                                           Text(
                                                             filtered[i]['price']!,
-                                                            style:
-                                                                const TextStyle(
-                                                                  color: Color(
-                                                                    0xFF6366F1,
-                                                                  ),
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 15,
-                                                                ),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
+                                                                      .colorScheme
+                                                                      .primary,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontSize: 15,
+                                                            ),
                                                             maxLines: 1,
                                                             overflow:
                                                                 TextOverflow
@@ -512,9 +545,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 )!.itemAdded,
                                                               ),
                                                               backgroundColor:
-                                                                  const Color(
-                                                                    0xFF6366F1,
-                                                                  ),
+                                                                  Theme.of(
+                                                                        context,
+                                                                      )
+                                                                      .colorScheme
+                                                                      .primary,
                                                               behavior:
                                                                   SnackBarBehavior
                                                                       .floating,
@@ -529,11 +564,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                         },
                                                         style: ElevatedButton.styleFrom(
                                                           backgroundColor:
-                                                              const Color(
-                                                                0xFF6366F1,
-                                                              ),
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .primary,
                                                           foregroundColor:
-                                                              Colors.white,
+                                                              Theme.of(context)
+                                                                  .colorScheme
+                                                                  .onPrimary,
                                                           padding:
                                                               const EdgeInsets.symmetric(
                                                                 horizontal: 12,
@@ -569,10 +606,12 @@ class _HomeScreenState extends State<HomeScreen> {
                               // Products Grid
                               Text(
                                 l.headerFoodItems,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
-                                  color: Color(0xFF1F2937),
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
                                 ),
                               ),
                               const SizedBox(height: 16),
@@ -590,7 +629,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                 itemBuilder: (context, i) => Container(
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Theme.of(context).cardColor,
                                     borderRadius: BorderRadius.circular(20),
                                     boxShadow: [
                                       BoxShadow(
@@ -645,8 +684,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                           children: [
                                             Text(
                                               filtered[i]['title']!,
-                                              style: const TextStyle(
-                                                color: Color(0xFF1F2937),
+                                              style: TextStyle(
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurface,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 12, // smaller font
                                               ),
@@ -656,8 +697,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                             const SizedBox(height: 2),
                                             Text(
                                               filtered[i]['price']!,
-                                              style: const TextStyle(
-                                                color: Color(0xFF6366F1),
+                                              style: TextStyle(
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.primary,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 12, // smaller font
                                               ),
@@ -676,10 +719,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           context,
                                                         )!.itemAdded,
                                                       ),
-                                                      backgroundColor:
-                                                          const Color(
-                                                            0xFF6366F1,
-                                                          ),
+                                                      backgroundColor: Theme.of(
+                                                        context,
+                                                      ).colorScheme.primary,
                                                       behavior: SnackBarBehavior
                                                           .floating,
                                                       shape: RoundedRectangleBorder(
@@ -702,10 +744,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                 ),
                                                 style: ElevatedButton.styleFrom(
-                                                  backgroundColor: const Color(
-                                                    0xFF6366F1,
-                                                  ),
-                                                  foregroundColor: Colors.white,
+                                                  backgroundColor: Theme.of(
+                                                    context,
+                                                  ).colorScheme.primary,
+                                                  foregroundColor: Theme.of(
+                                                    context,
+                                                  ).colorScheme.onPrimary,
                                                   padding:
                                                       const EdgeInsets.symmetric(
                                                         vertical: 4,
@@ -744,10 +788,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   const SizedBox(width: 12),
                                   Text(
                                     AppLocalizations.of(context)!.hotOffers,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontSize: 22,
                                       fontWeight: FontWeight.bold,
-                                      color: Color(0xFF1F2937),
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface,
                                     ),
                                   ),
                                 ],
@@ -761,7 +807,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   margin: const EdgeInsets.only(bottom: 12),
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Theme.of(context).cardColor,
                                     borderRadius: BorderRadius.circular(16),
                                     boxShadow: [
                                       BoxShadow(
@@ -808,8 +854,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                           children: [
                                             Text(
                                               offers[i]['desc']!,
-                                              style: const TextStyle(
-                                                color: Color(0xFF1F2937),
+                                              style: TextStyle(
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurface,
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 16,
                                               ),
@@ -830,7 +878,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ),
                                               child: Text(
                                                 offers[i]['discount']!,
-                                                style: const TextStyle(
+                                                style: TextStyle(
                                                   color: Colors.red,
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 12,

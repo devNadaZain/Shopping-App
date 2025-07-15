@@ -8,8 +8,12 @@ import 'signin_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   final void Function(Locale) onLocaleChange;
-  const WelcomeScreen({Key? key, required this.onLocaleChange})
-    : super(key: key);
+  final void Function(ThemeMode) onThemeModeChange;
+  const WelcomeScreen({
+    Key? key,
+    required this.onLocaleChange,
+    required this.onThemeModeChange,
+  }) : super(key: key);
 
   @override
   State<WelcomeScreen> createState() => _WelcomeScreenState();
@@ -91,75 +95,102 @@ class _WelcomeScreenState extends State<WelcomeScreen>
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              const Color(0xFFF8FAFC),
-              const Color(0xFFF1F5F9),
-              const Color(0xFFE2E8F0),
-            ],
-          ),
-        ),
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: SafeArea(
           child: Stack(
             children: [
-              // Soft blurred decorative circles
-              Positioned(
-                top: -60,
-                left: -60,
-                child: Container(
-                  width: 180,
-                  height: 180,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xFF6366F1).withOpacity(0.12),
-                        const Color(0xFF8B5CF6).withOpacity(0.10),
-                      ],
+              // Decorative circles: use dark colors in dark mode
+              if (Theme.of(context).brightness == Brightness.light) ...[
+                Positioned(
+                  top: -60,
+                  left: -60,
+                  child: Container(
+                    width: 180,
+                    height: 180,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [
+                          const Color(0xFF6366F1).withOpacity(0.12),
+                          const Color(0xFF8B5CF6).withOpacity(0.10),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                bottom: -80,
-                right: -80,
-                child: Container(
-                  width: 220,
-                  height: 220,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    gradient: LinearGradient(
-                      colors: [
-                        const Color(0xFF6366F1).withOpacity(0.10),
-                        const Color(0xFF8B5CF6).withOpacity(0.08),
-                      ],
+                Positioned(
+                  bottom: -80,
+                  right: -80,
+                  child: Container(
+                    width: 220,
+                    height: 220,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [
+                          const Color(0xFF6366F1).withOpacity(0.10),
+                          const Color(0xFF8B5CF6).withOpacity(0.08),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              // Language switch button (top right)
+              ],
+              // Language and theme switch buttons (top right)
               Positioned(
                 top: 16,
                 right: 16,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF1F5F9),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.language, color: Color(0xFF6366F1)),
-                    tooltip: 'Switch Language',
-                    onPressed: () {
-                      final isEnglish =
-                          Localizations.localeOf(context).languageCode == 'en';
-                      widget.onLocaleChange(Locale(isEnglish ? 'ar' : 'en'));
-                    },
-                  ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF1F5F9),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.language,
+                          color: Color(0xFF6366F1),
+                        ),
+                        tooltip: 'Switch Language',
+                        onPressed: () {
+                          final isEnglish =
+                              Localizations.localeOf(context).languageCode ==
+                              'en';
+                          widget.onLocaleChange(
+                            Locale(isEnglish ? 'ar' : 'en'),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF1F5F9),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Icons.dark_mode
+                              : Icons.light_mode,
+                          color: const Color(0xFF6366F1),
+                        ),
+                        tooltip: 'Switch Theme',
+                        onPressed: () {
+                          widget.onThemeModeChange(
+                            Theme.of(context).brightness == Brightness.dark
+                                ? ThemeMode.light
+                                : ThemeMode.dark,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
               // Main content
@@ -179,14 +210,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                             horizontal: 24,
                           ),
                           decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                              colors: [
-                                Colors.white,
-                                Colors.white.withOpacity(0.95),
-                              ],
-                            ),
+                            color: Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(24),
                             boxShadow: [
                               BoxShadow(
@@ -228,13 +252,7 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                               const SizedBox(height: 28),
                               Text(
                                 localizations.welcomeTitle,
-                                style: const TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF1F2937),
-                                  letterSpacing: -0.5,
-                                  height: 1.1,
-                                ),
+                                style: Theme.of(context).textTheme.displayLarge,
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(height: 12),
@@ -267,6 +285,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                   SlideRoute(
                                     page: SignUpScreen(
                                       onLocaleChange: widget.onLocaleChange,
+                                      onThemeModeChange:
+                                          widget.onThemeModeChange,
                                     ),
                                     direction: SlideDirection.right,
                                   ),
@@ -312,6 +332,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                   SlideRoute(
                                     page: SignInScreen(
                                       onLocaleChange: widget.onLocaleChange,
+                                      onThemeModeChange:
+                                          widget.onThemeModeChange,
                                     ),
                                     direction: SlideDirection.right,
                                   ),

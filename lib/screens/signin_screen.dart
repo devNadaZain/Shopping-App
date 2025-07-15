@@ -7,8 +7,12 @@ import '../l10n/app_localizations.dart';
 
 class SignInScreen extends StatefulWidget {
   final void Function(Locale) onLocaleChange;
-  const SignInScreen({Key? key, required this.onLocaleChange})
-    : super(key: key);
+  final void Function(ThemeMode) onThemeModeChange;
+  const SignInScreen({
+    Key? key,
+    required this.onLocaleChange,
+    required this.onThemeModeChange,
+  }) : super(key: key);
 
   @override
   State<SignInScreen> createState() => _SignInScreenState();
@@ -119,6 +123,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         SlideRoute(
                           page: HomeScreen(
                             onLocaleChange: widget.onLocaleChange,
+                            onThemeModeChange: widget.onThemeModeChange,
                           ),
                           direction: SlideDirection.right,
                         ),
@@ -242,18 +247,9 @@ class _SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              const Color(0xFFF8FAFC),
-              const Color(0xFFF1F5F9),
-              const Color(0xFFE2E8F0),
-            ],
-          ),
-        ),
+        color: Theme.of(context).scaffoldBackgroundColor,
         child: SafeArea(
           child: Stack(
             children: [
@@ -304,11 +300,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     Container(
                       padding: const EdgeInsets.all(24),
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [Colors.white, Colors.white.withOpacity(0.9)],
-                        ),
+                        color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(20),
                         boxShadow: [
                           BoxShadow(
@@ -380,7 +372,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ],
                 ),
               ),
-              // Language switch button (top right)
+              // Language and theme switch buttons (top right/left)
               Positioned(
                 top: 16,
                 left: Directionality.of(context) == TextDirection.rtl
@@ -389,21 +381,55 @@ class _SignInScreenState extends State<SignInScreen> {
                 right: Directionality.of(context) == TextDirection.ltr
                     ? 16
                     : null,
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF1F5F9),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: IconButton(
-                    icon: const Icon(Icons.language, color: Color(0xFF6366F1)),
-                    tooltip: 'Switch Language',
-                    onPressed: () {
-                      final isEnglish =
-                          Localizations.localeOf(context).languageCode == 'en';
-                      widget.onLocaleChange(Locale(isEnglish ? 'ar' : 'en'));
-                    },
-                  ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF1F5F9),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.language,
+                          color: Color(0xFF6366F1),
+                        ),
+                        tooltip: 'Switch Language',
+                        onPressed: () {
+                          final isEnglish =
+                              Localizations.localeOf(context).languageCode ==
+                              'en';
+                          widget.onLocaleChange(
+                            Locale(isEnglish ? 'ar' : 'en'),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF1F5F9),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: IconButton(
+                        icon: Icon(
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Icons.dark_mode
+                              : Icons.light_mode,
+                          color: const Color(0xFF6366F1),
+                        ),
+                        tooltip: 'Switch Theme',
+                        onPressed: () {
+                          widget.onThemeModeChange(
+                            Theme.of(context).brightness == Brightness.dark
+                                ? ThemeMode.light
+                                : ThemeMode.dark,
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

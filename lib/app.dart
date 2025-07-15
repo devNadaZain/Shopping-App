@@ -17,10 +17,17 @@ class ShoppingApp extends StatefulWidget {
 
 class _ShoppingAppState extends State<ShoppingApp> {
   Locale _locale = const Locale('en');
+  ThemeMode _themeMode = ThemeMode.light;
 
   void _setLocale(Locale locale) {
     setState(() {
       _locale = locale;
+    });
+  }
+
+  void _setThemeMode(ThemeMode mode) {
+    setState(() {
+      _themeMode = mode;
     });
   }
 
@@ -30,18 +37,9 @@ class _ShoppingAppState extends State<ShoppingApp> {
       title: 'Shopping App',
       debugShowCheckedModeBanner: false,
       locale: _locale,
-
-      // Enhanced localization setup
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [Locale('en'), Locale('ar')],
-
-      // Enhanced modern theme
+      themeMode: _themeMode,
       theme: ThemeData(
+        brightness: Brightness.light,
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF6366F1),
@@ -57,71 +55,73 @@ class _ShoppingAppState extends State<ShoppingApp> {
           onSurface: const Color(0xFF1F2937),
           onBackground: const Color(0xFF1F2937),
         ),
-
-        // Enhanced text theme
-        textTheme: const TextTheme(
-          displayLarge: TextStyle(
+        textTheme: ThemeData.light().textTheme.copyWith(
+          displayLarge: const TextStyle(
             fontSize: 32,
             fontWeight: FontWeight.bold,
             color: Color(0xFF1F2937),
             letterSpacing: -0.5,
           ),
-          displayMedium: TextStyle(
+          displayMedium: const TextStyle(
             fontSize: 28,
             fontWeight: FontWeight.bold,
             color: Color(0xFF1F2937),
             letterSpacing: -0.3,
           ),
-          displaySmall: TextStyle(
+          displaySmall: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
             color: Color(0xFF1F2937),
             letterSpacing: -0.2,
           ),
-          headlineLarge: TextStyle(
+          headlineLarge: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w600,
             color: Color(0xFF1F2937),
             letterSpacing: -0.1,
           ),
-          headlineMedium: TextStyle(
+          headlineMedium: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w600,
             color: Color(0xFF374151),
           ),
-          headlineSmall: TextStyle(
+          headlineSmall: const TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w500,
             color: Color(0xFF374151),
           ),
-          titleLarge: TextStyle(
+          titleLarge: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w500,
             color: Color(0xFF374151),
           ),
-          titleMedium: TextStyle(
+          titleMedium: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: Color(0xFF6B7280),
           ),
-          bodyLarge: TextStyle(
+          titleSmall: ThemeData.light().textTheme.titleSmall,
+          bodyLarge: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.normal,
             color: Color(0xFF374151),
             height: 1.5,
           ),
-          bodyMedium: TextStyle(
+          bodyMedium: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.normal,
             color: Color(0xFF6B7280),
             height: 1.4,
           ),
-          labelLarge: TextStyle(
+          bodySmall: ThemeData.light().textTheme.bodySmall,
+          labelLarge: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w500,
             color: Color(0xFF374151),
             letterSpacing: 0.1,
           ),
+          labelMedium: ThemeData.light().textTheme.labelMedium,
+          labelSmall: ThemeData.light().textTheme.labelSmall,
         ),
 
         // Enhanced input decoration theme
@@ -157,19 +157,27 @@ class _ShoppingAppState extends State<ShoppingApp> {
 
         // Enhanced elevated button theme
         elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF6366F1),
-            foregroundColor: Colors.white,
-            elevation: 0,
-            shadowColor: const Color(0xFF6366F1).withOpacity(0.3),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+          style: ButtonStyle(
+            textStyle: MaterialStateProperty.all(
+              TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF374151),
+                letterSpacing: 0.1,
+                inherit: true,
+              ),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-            textStyle: const TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
-              letterSpacing: 0.5,
+            backgroundColor: MaterialStateProperty.all(const Color(0xFF6366F1)),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+            elevation: MaterialStateProperty.all(0),
+            shadowColor: MaterialStateProperty.all(
+              const Color(0xFF6366F1).withOpacity(0.3),
+            ),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            ),
+            padding: MaterialStateProperty.all(
+              const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
             ),
           ),
         ),
@@ -200,8 +208,153 @@ class _ShoppingAppState extends State<ShoppingApp> {
           iconTheme: IconThemeData(color: Color(0xFF374151), size: 24),
         ),
       ),
-
-      home: WelcomeScreen(onLocaleChange: _setLocale),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF6366F1),
+          brightness: Brightness.dark,
+          primary: const Color(0xFF6366F1),
+          secondary: const Color(0xFF8B5CF6),
+          tertiary: const Color(0xFFEC4899),
+          surface: const Color(0xFF18181B),
+          background: const Color(0xFF18181B),
+          error: const Color(0xFFEF4444),
+          onPrimary: Colors.white,
+          onSecondary: Colors.white,
+          onSurface: Colors.white,
+          onBackground: Colors.white,
+        ),
+        scaffoldBackgroundColor: const Color(0xFF18181B),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF18181B),
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          centerTitle: true,
+          titleTextStyle: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            letterSpacing: -0.2,
+          ),
+          iconTheme: IconThemeData(color: Colors.white, size: 24),
+        ),
+        cardTheme: CardThemeData(
+          color: Color(0xFF23232A),
+          elevation: 0,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+            side: BorderSide(color: Color(0xFF23232A), width: 1),
+          ),
+          shadowColor: Colors.black12,
+        ),
+        dialogBackgroundColor: const Color(0xFF23232A),
+        textTheme: ThemeData.dark().textTheme.copyWith(
+          displayLarge: const TextStyle(
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            letterSpacing: -0.5,
+          ),
+          displayMedium: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            letterSpacing: -0.3,
+          ),
+          displaySmall: const TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+            letterSpacing: -0.2,
+          ),
+          headlineLarge: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+            letterSpacing: -0.1,
+          ),
+          headlineMedium: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFFCBD5E1),
+          ),
+          headlineSmall: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFFCBD5E1),
+          ),
+          titleLarge: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFFCBD5E1),
+          ),
+          titleMedium: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Color(0xFF94A3B8),
+          ),
+          titleSmall: ThemeData.dark().textTheme.titleSmall,
+          bodyLarge: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.normal,
+            color: Color(0xFFCBD5E1),
+            height: 1.5,
+          ),
+          bodyMedium: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.normal,
+            color: Color(0xFF94A3B8),
+            height: 1.4,
+          ),
+          bodySmall: ThemeData.dark().textTheme.bodySmall,
+          labelLarge: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            color: Colors.white,
+            letterSpacing: 0.1,
+          ),
+          labelMedium: ThemeData.dark().textTheme.labelMedium,
+          labelSmall: ThemeData.dark().textTheme.labelSmall,
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            textStyle: MaterialStateProperty.all(
+              TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+                letterSpacing: 0.1,
+                inherit: true,
+              ),
+            ),
+            backgroundColor: MaterialStateProperty.all(const Color(0xFF6366F1)),
+            foregroundColor: MaterialStateProperty.all(Colors.white),
+            elevation: MaterialStateProperty.all(0),
+            shadowColor: MaterialStateProperty.all(
+              const Color(0xFF6366F1).withOpacity(0.3),
+            ),
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+            ),
+            padding: MaterialStateProperty.all(
+              const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+            ),
+          ),
+        ),
+        // You can further customize dark theme if needed
+      ),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en'), Locale('ar')],
+      home: WelcomeScreen(
+        onLocaleChange: _setLocale,
+        onThemeModeChange: _setThemeMode,
+      ),
     );
   }
 }

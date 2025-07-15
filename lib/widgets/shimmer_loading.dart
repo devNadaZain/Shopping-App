@@ -81,7 +81,7 @@ class ShimmerCard extends StatelessWidget {
         height: height,
         width: width,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(borderRadius),
         ),
       ),

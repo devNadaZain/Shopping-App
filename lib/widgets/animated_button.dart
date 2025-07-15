@@ -84,12 +84,16 @@ class _AnimatedButtonState extends State<AnimatedButton>
               width: widget.width,
               height: widget.height,
               decoration: BoxDecoration(
-                color: widget.backgroundColor ?? const Color(0xFF6366F1),
+                color:
+                    widget.backgroundColor ??
+                    Theme.of(context).colorScheme.primary,
                 borderRadius: widget.borderRadius ?? BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
-                    color: (widget.backgroundColor ?? const Color(0xFF6366F1))
-                        .withOpacity(0.3),
+                    color:
+                        (widget.backgroundColor ??
+                                Theme.of(context).colorScheme.primary)
+                            .withOpacity(0.3),
                     blurRadius: _elevationAnimation.value,
                     offset: Offset(0, _elevationAnimation.value / 2),
                   ),
