@@ -232,6 +232,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Enter your password'**
   String get enterPassword;
+
+  /// No description provided for @categoryAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get categoryAll;
+
+  /// No description provided for @categoryPasta.
+  ///
+  /// In en, this message translates to:
+  /// **'Pasta'**
+  String get categoryPasta;
+
+  /// No description provided for @categoryPizza.
+  ///
+  /// In en, this message translates to:
+  /// **'Pizza'**
+  String get categoryPizza;
+
+  /// No description provided for @categoryDessert.
+  ///
+  /// In en, this message translates to:
+  /// **'Dessert'**
+  String get categoryDessert;
+
+  /// No description provided for @categoryDrinks.
+  ///
+  /// In en, this message translates to:
+  /// **'Drinks'**
+  String get categoryDrinks;
+
+  /// No description provided for @categorySalad.
+  ///
+  /// In en, this message translates to:
+  /// **'Salad'**
+  String get categorySalad;
+
+  /// No description provided for @productSpaghettiCarbonara.
+  ///
+  /// In en, this message translates to:
+  /// **'Spaghetti Carbonara'**
+  String get productSpaghettiCarbonara;
+
+  /// No description provided for @productPenneArrabbiata.
+  ///
+  /// In en, this message translates to:
+  /// **'Penne Arrabbiata'**
+  String get productPenneArrabbiata;
+
+  /// No description provided for @productMargheritaPizza.
+  ///
+  /// In en, this message translates to:
+  /// **'Margherita Pizza'**
+  String get productMargheritaPizza;
+
+  /// No description provided for @productPepperoniPizza.
+  ///
+  /// In en, this message translates to:
+  /// **'Pepperoni Pizza'**
+  String get productPepperoniPizza;
+
+  /// No description provided for @productChocolateCake.
+  ///
+  /// In en, this message translates to:
+  /// **'Chocolate Cake'**
+  String get productChocolateCake;
+
+  /// No description provided for @productStrawberryCheesecake.
+  ///
+  /// In en, this message translates to:
+  /// **'Strawberry Cheesecake'**
+  String get productStrawberryCheesecake;
+
+  /// No description provided for @productFreshOrangeJuice.
+  ///
+  /// In en, this message translates to:
+  /// **'Fresh Orange Juice'**
+  String get productFreshOrangeJuice;
+
+  /// No description provided for @productIcedCoffee.
+  ///
+  /// In en, this message translates to:
+  /// **'Iced Coffee'**
+  String get productIcedCoffee;
+
+  /// No description provided for @productCaesarSalad.
+  ///
+  /// In en, this message translates to:
+  /// **'Caesar Salad'**
+  String get productCaesarSalad;
+
+  /// No description provided for @productGreekSalad.
+  ///
+  /// In en, this message translates to:
+  /// **'Greek Salad'**
+  String get productGreekSalad;
+
+  /// No description provided for @headerFoodMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Food Menu'**
+  String get headerFoodMenu;
+
+  /// No description provided for @headerAllFoodItems.
+  ///
+  /// In en, this message translates to:
+  /// **'All Food Items'**
+  String get headerAllFoodItems;
+
+  /// No description provided for @headerFoodItems.
+  ///
+  /// In en, this message translates to:
+  /// **'Food Items'**
+  String get headerFoodItems;
+
+  /// No description provided for @buttonAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get buttonAdd;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

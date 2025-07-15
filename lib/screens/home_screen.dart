@@ -45,85 +45,92 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
-    final categories = ['All', 'Pasta', 'Pizza', 'Dessert', 'Drinks', 'Salad'];
+    final categories = [
+      l.categoryAll,
+      l.categoryPasta,
+      l.categoryPizza,
+      l.categoryDessert,
+      l.categoryDrinks,
+      l.categorySalad,
+    ];
     final products = [
       {
-        'title': 'Spaghetti Carbonara',
+        'title': l.productSpaghettiCarbonara,
         'image':
             'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&w=400',
         'price': ' 19.99',
-        'category': 'Pasta',
+        'category': l.categoryPasta,
         'isAsset': false,
       },
       {
-        'title': 'Penne Arrabbiata',
+        'title': l.productPenneArrabbiata,
         'image':
             'https://tastesbetterfromscratch.com/wp-content/uploads/2020/03/Penne-Arrabbiata-1-2.jpg',
         'price': ' 17.99',
-        'category': 'Pasta',
+        'category': l.categoryPasta,
         'isAsset': false,
       },
       {
-        'title': 'Margherita Pizza',
+        'title': l.productMargheritaPizza,
         'image':
             'https://www.foodandwine.com/thmb/3kzG4PWOAgZIIfZwMBLKqoTkaGQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/margherita-pizza-with-argula-and-prosciutto-FT-RECIPE0721-04368ec288a84d2e997573aca0001d98.jpg',
         'price': ' 29.99',
-        'category': 'Pizza',
+        'category': l.categoryPizza,
         'isAsset': false,
       },
       {
-        'title': 'Pepperoni Pizza',
+        'title': l.productPepperoniPizza,
         'image':
             'https://fantinomondello.ca/wp-content/uploads/2021/02/pepperoni_cheese_pizza.jpg',
         'price': ' 34.99',
-        'category': 'Pizza',
+        'category': l.categoryPizza,
         'isAsset': false,
       },
       {
-        'title': 'Chocolate Cake',
+        'title': l.productChocolateCake,
         'image':
             'https://assets.epicurious.com/photos/56f302b316f9f5a007cc1796/master/pass/chocllate-cake.jpg',
         'price': ' 12.99',
-        'category': 'Dessert',
+        'category': l.categoryDessert,
         'isAsset': false,
       },
       {
-        'title': 'Strawberry Cheesecake',
+        'title': l.productStrawberryCheesecake,
         'image':
             'https://www.splenda.com/wp-content/themes/bistrotheme/assets/recipe-images/strawberry-topped-cheesecake.jpg',
         'price': ' 14.99',
-        'category': 'Dessert',
+        'category': l.categoryDessert,
         'isAsset': false,
       },
       {
-        'title': 'Fresh Orange Juice',
+        'title': l.productFreshOrangeJuice,
         'image':
             'https://images.pexels.com/photos/96974/pexels-photo-96974.jpeg?auto=compress&w=400',
         'price': ' 5.99',
-        'category': 'Drinks',
+        'category': l.categoryDrinks,
         'isAsset': false,
       },
       {
-        'title': 'Iced Coffee',
+        'title': l.productIcedCoffee,
         'image':
             'https://www.coffeetech.com/media/img/products/secondary/Ice-moca-coffee-distribuidor-hosteleria-cafe-chocolate.webp',
         'price': ' 6.99',
-        'category': 'Drinks',
+        'category': l.categoryDrinks,
         'isAsset': false,
       },
       {
-        'title': 'Caesar Salad',
+        'title': l.productCaesarSalad,
         'image':
             'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&w=400',
         'price': ' 10.99',
-        'category': 'Salad',
+        'category': l.categorySalad,
         'isAsset': false,
       },
       {
-        'title': 'Greek Salad',
+        'title': l.productGreekSalad,
         'asset': 'assets/images/the-perfect-greek-salad-7 (1).jpg',
         'price': ' 11.99',
-        'category': 'Salad',
+        'category': l.categorySalad,
         'isAsset': true,
       },
     ];
@@ -240,7 +247,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           const SizedBox(width: 12),
                           Text(
-                            'Food Menu',
+                            l.headerFoodMenu,
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -365,7 +372,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   vertical: 8.0,
                                 ),
                                 child: Text(
-                                  value == 'All' ? 'All Food Items' : value,
+                                  value == l.categoryAll
+                                      ? l.headerAllFoodItems
+                                      : value,
                                   style: const TextStyle(
                                     fontSize: 20,
                                     fontWeight: FontWeight.bold,
@@ -559,7 +568,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ],
                               // Products Grid
                               Text(
-                                'Food Items',
+                                l.headerFoodItems,
                                 style: const TextStyle(
                                   fontSize: 22,
                                   fontWeight: FontWeight.bold,
@@ -686,9 +695,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   Icons.add_shopping_cart,
                                                   size: 12, // smaller icon
                                                 ),
-                                                label: const Text(
-                                                  'Add',
-                                                  style: TextStyle(
+                                                label: Text(
+                                                  l.buttonAdd,
+                                                  style: const TextStyle(
                                                     fontSize: 11,
                                                   ),
                                                 ),

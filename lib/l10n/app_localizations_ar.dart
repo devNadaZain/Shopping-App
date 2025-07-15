@@ -76,4 +76,64 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get enterPassword => 'أدخل كلمة المرور';
+
+  @override
+  String get categoryAll => 'الكل';
+
+  @override
+  String get categoryPasta => 'باستا';
+
+  @override
+  String get categoryPizza => 'بيتزا';
+
+  @override
+  String get categoryDessert => 'حلويات';
+
+  @override
+  String get categoryDrinks => 'مشروبات';
+
+  @override
+  String get categorySalad => 'سلطة';
+
+  @override
+  String get productSpaghettiCarbonara => 'سباغيتي كاربونارا';
+
+  @override
+  String get productPenneArrabbiata => 'بيني أرابياتا';
+
+  @override
+  String get productMargheritaPizza => 'بيتزا مارجريتا';
+
+  @override
+  String get productPepperoniPizza => 'بيتزا ببروني';
+
+  @override
+  String get productChocolateCake => 'كيك الشوكولاتة';
+
+  @override
+  String get productStrawberryCheesecake => 'تشيز كيك بالفراولة';
+
+  @override
+  String get productFreshOrangeJuice => 'عصير برتقال طازج';
+
+  @override
+  String get productIcedCoffee => 'قهوة مثلجة';
+
+  @override
+  String get productCaesarSalad => 'سلطة سيزر';
+
+  @override
+  String get productGreekSalad => 'سلطة يونانية';
+
+  @override
+  String get headerFoodMenu => 'قائمة الطعام';
+
+  @override
+  String get headerAllFoodItems => 'كل الأطعمة';
+
+  @override
+  String get headerFoodItems => 'الأطعمة';
+
+  @override
+  String get buttonAdd => 'إضافة';
 }

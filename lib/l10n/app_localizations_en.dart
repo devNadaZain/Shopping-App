@@ -76,4 +76,64 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get enterPassword => 'Enter your password';
+
+  @override
+  String get categoryAll => 'All';
+
+  @override
+  String get categoryPasta => 'Pasta';
+
+  @override
+  String get categoryPizza => 'Pizza';
+
+  @override
+  String get categoryDessert => 'Dessert';
+
+  @override
+  String get categoryDrinks => 'Drinks';
+
+  @override
+  String get categorySalad => 'Salad';
+
+  @override
+  String get productSpaghettiCarbonara => 'Spaghetti Carbonara';
+
+  @override
+  String get productPenneArrabbiata => 'Penne Arrabbiata';
+
+  @override
+  String get productMargheritaPizza => 'Margherita Pizza';
+
+  @override
+  String get productPepperoniPizza => 'Pepperoni Pizza';
+
+  @override
+  String get productChocolateCake => 'Chocolate Cake';
+
+  @override
+  String get productStrawberryCheesecake => 'Strawberry Cheesecake';
+
+  @override
+  String get productFreshOrangeJuice => 'Fresh Orange Juice';
+
+  @override
+  String get productIcedCoffee => 'Iced Coffee';
+
+  @override
+  String get productCaesarSalad => 'Caesar Salad';
+
+  @override
+  String get productGreekSalad => 'Greek Salad';
+
+  @override
+  String get headerFoodMenu => 'Food Menu';
+
+  @override
+  String get headerAllFoodItems => 'All Food Items';
+
+  @override
+  String get headerFoodItems => 'Food Items';
+
+  @override
+  String get buttonAdd => 'Add';
 }
