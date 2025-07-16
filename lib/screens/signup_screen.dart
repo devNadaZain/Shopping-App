@@ -149,6 +149,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
+    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -159,10 +160,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: [
               // Main content
               SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
+                padding: EdgeInsets.all(size.width * 0.06),
                 child: Column(
                   children: [
-                    const SizedBox(height: 20),
+                    SizedBox(height: size.height * 0.025),
 
                     Row(
                       children: [
@@ -180,32 +181,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           ),
                           child: IconButton(
                             onPressed: () => Navigator.of(context).pop(),
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.arrow_back_ios_new,
-                              color: Color(0xFF374151),
-                              size: 20,
+                              color: const Color(0xFF374151),
+                              size: size.width * 0.05,
                             ),
                           ),
                         ),
                         const Spacer(),
                         Text(
                           localizations.signUp,
-                          style: const TextStyle(
-                            fontSize: 28,
-                            fontWeight: FontWeight.bold,
-                            color: Color(0xFF1F2937),
-                            letterSpacing: -0.5,
-                          ),
+                          style: Theme.of(context).textTheme.headlineMedium
+                              ?.copyWith(
+                                fontSize: size.width * 0.07,
+                                fontWeight: FontWeight.bold,
+                                color: const Color(0xFF1F2937),
+                                letterSpacing: -0.5,
+                              ),
                         ),
                         const Spacer(),
-                        const SizedBox(width: 48),
+                        SizedBox(width: size.width * 0.12),
                       ],
                     ),
 
-                    const SizedBox(height: 40),
+                    SizedBox(height: size.height * 0.05),
 
                     Container(
-                      padding: const EdgeInsets.all(24),
+                      padding: EdgeInsets.all(size.width * 0.06),
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
                         borderRadius: BorderRadius.circular(20),

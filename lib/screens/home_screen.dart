@@ -20,7 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    selectedCategory = ValueNotifier('All');
+    selectedCategory = ValueNotifier('all'); // always a valid key
   }
 
   @override
@@ -50,7 +50,17 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final l = AppLocalizations.of(context)!;
-    final categories = [
+    final size = MediaQuery.of(context).size;
+    // Use keys for categories
+    final categoryKeys = [
+      'all',
+      'pasta',
+      'pizza',
+      'dessert',
+      'drinks',
+      'salad',
+    ];
+    final categoryNames = [
       l.categoryAll,
       l.categoryPasta,
       l.categoryPizza,
@@ -64,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'image':
             'https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&w=400',
         'price': ' 19.99',
-        'category': l.categoryPasta,
+        'category': 'pasta',
         'isAsset': false,
       },
       {
@@ -72,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'image':
             'https://tastesbetterfromscratch.com/wp-content/uploads/2020/03/Penne-Arrabbiata-1-2.jpg',
         'price': ' 17.99',
-        'category': l.categoryPasta,
+        'category': 'pasta',
         'isAsset': false,
       },
       {
@@ -80,7 +90,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'image':
             'https://www.foodandwine.com/thmb/3kzG4PWOAgZIIfZwMBLKqoTkaGQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/margherita-pizza-with-argula-and-prosciutto-FT-RECIPE0721-04368ec288a84d2e997573aca0001d98.jpg',
         'price': ' 29.99',
-        'category': l.categoryPizza,
+        'category': 'pizza',
         'isAsset': false,
       },
       {
@@ -88,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'image':
             'https://fantinomondello.ca/wp-content/uploads/2021/02/pepperoni_cheese_pizza.jpg',
         'price': ' 34.99',
-        'category': l.categoryPizza,
+        'category': 'pizza',
         'isAsset': false,
       },
       {
@@ -96,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'image':
             'https://assets.epicurious.com/photos/56f302b316f9f5a007cc1796/master/pass/chocllate-cake.jpg',
         'price': ' 12.99',
-        'category': l.categoryDessert,
+        'category': 'dessert',
         'isAsset': false,
       },
       {
@@ -104,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'image':
             'https://www.splenda.com/wp-content/themes/bistrotheme/assets/recipe-images/strawberry-topped-cheesecake.jpg',
         'price': ' 14.99',
-        'category': l.categoryDessert,
+        'category': 'dessert',
         'isAsset': false,
       },
       {
@@ -112,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'image':
             'https://images.pexels.com/photos/96974/pexels-photo-96974.jpeg?auto=compress&w=400',
         'price': ' 5.99',
-        'category': l.categoryDrinks,
+        'category': 'drinks',
         'isAsset': false,
       },
       {
@@ -120,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen> {
         'image':
             'https://www.coffeetech.com/media/img/products/secondary/Ice-moca-coffee-distribuidor-hosteleria-cafe-chocolate.webp',
         'price': ' 6.99',
-        'category': l.categoryDrinks,
+        'category': 'drinks',
         'isAsset': false,
       },
       {
@@ -128,22 +138,22 @@ class _HomeScreenState extends State<HomeScreen> {
         'image':
             'https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&w=400',
         'price': ' 10.99',
-        'category': l.categorySalad,
+        'category': 'salad',
         'isAsset': false,
       },
       {
         'title': l.productGreekSalad,
         'asset': 'assets/images/the-perfect-greek-salad-7 (1).jpg',
         'price': ' 11.99',
-        'category': l.categorySalad,
+        'category': 'salad',
         'isAsset': true,
       },
     ];
 
-    List<Map<String, dynamic>> filteredProducts(String category) {
-      if (category == 'All') return products.cast<Map<String, dynamic>>();
+    List<Map<String, dynamic>> filteredProducts(String categoryKey) {
+      if (categoryKey == 'all') return products.cast<Map<String, dynamic>>();
       return products
-          .where((p) => p['category'] == category)
+          .where((p) => p['category'] == categoryKey)
           .cast<Map<String, dynamic>>()
           .toList();
     }
@@ -168,11 +178,11 @@ class _HomeScreenState extends State<HomeScreen> {
               // Decorative circles: use dark colors in dark mode
               if (Theme.of(context).brightness == Brightness.light) ...[
                 Positioned(
-                  top: -60,
-                  left: -60,
+                  top: -size.height * 0.08,
+                  left: -size.width * 0.15,
                   child: Container(
-                    width: 180,
-                    height: 180,
+                    width: size.width * 0.45,
+                    height: size.width * 0.45,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
@@ -185,11 +195,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Positioned(
-                  bottom: -80,
-                  right: -80,
+                  bottom: -size.height * 0.12,
+                  right: -size.width * 0.18,
                   child: Container(
-                    width: 220,
-                    height: 220,
+                    width: size.width * 0.55,
+                    height: size.width * 0.55,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       gradient: LinearGradient(
@@ -207,11 +217,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   // Modern AppBar
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                    padding: EdgeInsets.fromLTRB(
+                      size.width * 0.04,
+                      size.height * 0.02,
+                      size.width * 0.04,
+                      0,
+                    ),
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 12,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: size.width * 0.04,
+                        vertical: size.height * 0.015,
                       ),
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
@@ -227,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(8),
+                            padding: EdgeInsets.all(size.width * 0.02),
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
                                 colors: [
@@ -237,82 +252,70 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                               borderRadius: BorderRadius.circular(12),
                             ),
-                            child: const Icon(
+                            child: Icon(
                               Icons.restaurant_menu,
                               color: Colors.white,
-                              size: 24,
+                              size: size.width * 0.06,
                             ),
                           ),
-                          const SizedBox(width: 12),
-                          Text(
-                            l.headerFoodMenu,
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ),
-                          const Spacer(),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).cardColor,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(
-                              Icons.search,
-                              color: Color(0xFF6366F1),
-                            ),
-                          ),
-                          const SizedBox(width: 8),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).cardColor,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.language,
-                                color: Color(0xFF6366F1),
-                              ),
-                              tooltip: 'Switch Language',
-                              onPressed: () {
-                                final isEnglish =
-                                    Localizations.localeOf(
+                          SizedBox(width: size.width * 0.03),
+                          // Make title flexible and ellipsis
+                          Expanded(
+                            child: Text(
+                              l.headerFoodMenu,
+                              style: Theme.of(context).textTheme.headlineSmall
+                                  ?.copyWith(
+                                    fontSize: size.width * 0.055,
+                                    fontWeight: FontWeight.bold,
+                                    color: Theme.of(
                                       context,
-                                    ).languageCode ==
-                                    'en';
-                                widget.onLocaleChange(
-                                  Locale(isEnglish ? 'ar' : 'en'),
-                                );
-                              },
+                                    ).colorScheme.onSurface,
+                                  ),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).cardColor,
-                              borderRadius: BorderRadius.circular(12),
+                          SizedBox(width: size.width * 0.01),
+                          Icon(
+                            Icons.search,
+                            color: const Color(0xFF6366F1),
+                            size: size.width * 0.05,
+                          ),
+                          SizedBox(width: size.width * 0.01),
+                          IconButton(
+                            icon: Icon(
+                              Icons.language,
+                              color: const Color(0xFF6366F1),
+                              size: size.width * 0.05,
                             ),
-                            child: IconButton(
-                              icon: Icon(
+                            tooltip: 'Switch Language',
+                            onPressed: () {
+                              final isEnglish =
+                                  Localizations.localeOf(
+                                    context,
+                                  ).languageCode ==
+                                  'en';
+                              widget.onLocaleChange(
+                                Locale(isEnglish ? 'ar' : 'en'),
+                              );
+                            },
+                          ),
+                          SizedBox(width: size.width * 0.01),
+                          IconButton(
+                            icon: Icon(
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Icons.dark_mode
+                                  : Icons.light_mode,
+                              color: const Color(0xFF6366F1),
+                              size: size.width * 0.05,
+                            ),
+                            tooltip: 'Switch Theme',
+                            onPressed: () {
+                              widget.onThemeModeChange(
                                 Theme.of(context).brightness == Brightness.dark
-                                    ? Icons.dark_mode
-                                    : Icons.light_mode,
-                                color: const Color(0xFF6366F1),
-                              ),
-                              tooltip: 'Switch Theme',
-                              onPressed: () {
-                                widget.onThemeModeChange(
-                                  Theme.of(context).brightness ==
-                                          Brightness.dark
-                                      ? ThemeMode.light
-                                      : ThemeMode.dark,
-                                );
-                              },
-                            ),
+                                    ? ThemeMode.light
+                                    : ThemeMode.dark,
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -320,29 +323,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   // Category selector
                   SizedBox(
-                    height: 48,
+                    height: size.height * 0.06,
                     child: ValueListenableBuilder<String>(
                       valueListenable: selectedCategory,
                       builder: (context, value, _) {
                         return ListView.separated(
                           scrollDirection: Axis.horizontal,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: size.width * 0.04,
+                            vertical: size.height * 0.015,
                           ),
-                          itemCount: categories.length,
+                          itemCount: categoryKeys.length,
                           separatorBuilder: (_, __) =>
-                              const SizedBox(width: 12),
+                              SizedBox(width: size.width * 0.03),
                           itemBuilder: (context, i) {
-                            final isSelected = value == categories[i];
+                            final isSelected = value == categoryKeys[i];
                             return GestureDetector(
                               onTap: () =>
-                                  selectedCategory.value = categories[i],
+                                  selectedCategory.value = categoryKeys[i],
                               child: AnimatedContainer(
                                 duration: const Duration(milliseconds: 200),
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 8,
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: size.width * 0.05,
+                                  vertical: size.height * 0.01,
                                 ),
                                 decoration: BoxDecoration(
                                   color: isSelected
@@ -363,16 +366,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                       : [],
                                 ),
                                 child: Text(
-                                  categories[i],
-                                  style: TextStyle(
-                                    color: isSelected
-                                        ? Theme.of(
-                                            context,
-                                          ).colorScheme.onPrimary
-                                        : Theme.of(context).colorScheme.primary,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 16,
-                                  ),
+                                  categoryNames[i],
+                                  style: Theme.of(context).textTheme.bodyLarge
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: isSelected
+                                            ? Colors.white
+                                            : Theme.of(
+                                                context,
+                                              ).colorScheme.onSurface,
+                                        fontSize: size.width * 0.04,
+                                      ),
                                 ),
                               ),
                             );
@@ -388,26 +392,37 @@ class _HomeScreenState extends State<HomeScreen> {
                       builder: (context, value, _) {
                         final filtered = filteredProducts(value);
                         return SingleChildScrollView(
-                          padding: const EdgeInsets.all(16),
+                          padding: EdgeInsets.all(size.width * 0.04),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               // Show selected category name
                               Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 8.0,
+                                padding: EdgeInsets.symmetric(
+                                  vertical: size.height * 0.01,
                                 ),
-                                child: Text(
-                                  value == l.categoryAll
-                                      ? l.headerAllFoodItems
-                                      : value,
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                  ),
+                                child: Builder(
+                                  builder: (context) {
+                                    final idx = categoryKeys.indexOf(value);
+                                    final headerText = value == 'all'
+                                        ? l.headerAllFoodItems
+                                        : (idx != -1
+                                              ? categoryNames[idx]
+                                              : l.headerAllFoodItems);
+                                    return Text(
+                                      headerText,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleLarge
+                                          ?.copyWith(
+                                            fontSize: size.width * 0.05,
+                                            fontWeight: FontWeight.bold,
+                                            color: Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
+                                          ),
+                                    );
+                                  },
                                 ),
                               ),
                               // Featured Products PageView

@@ -195,19 +195,19 @@ class _WelcomeScreenState extends State<WelcomeScreen>
               ),
               // Main content
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.06),
                 child: Column(
                   children: [
-                    const SizedBox(height: 60),
+                    SizedBox(height: size.height * 0.08),
                     // Logo and title card
                     FadeTransition(
                       opacity: _fadeAnimation,
                       child: SlideTransition(
                         position: _slideAnimation,
                         child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 32,
-                            horizontal: 24,
+                          padding: EdgeInsets.symmetric(
+                            vertical: size.height * 0.04,
+                            horizontal: size.width * 0.06,
                           ),
                           decoration: BoxDecoration(
                             color: Theme.of(context).cardColor,
@@ -223,8 +223,8 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                           child: Column(
                             children: [
                               Container(
-                                width: 90,
-                                height: 90,
+                                width: size.width * 0.22,
+                                height: size.width * 0.22,
                                 decoration: BoxDecoration(
                                   gradient: LinearGradient(
                                     colors: [
@@ -245,25 +245,27 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                                 ),
                                 child: const Icon(
                                   Icons.shopping_bag_outlined,
-                                  size: 44,
+                                  size: 44, // can also scale with size.width
                                   color: Colors.white,
                                 ),
                               ),
-                              const SizedBox(height: 28),
+                              SizedBox(height: size.height * 0.035),
                               Text(
                                 localizations.welcomeTitle,
-                                style: Theme.of(context).textTheme.displayLarge,
+                                style: Theme.of(context).textTheme.displayLarge
+                                    ?.copyWith(fontSize: size.width * 0.07),
                                 textAlign: TextAlign.center,
                               ),
-                              const SizedBox(height: 12),
+                              SizedBox(height: size.height * 0.015),
                               Text(
                                 localizations.welcomeSubtitle,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Color(0xFF6B7280),
-                                  height: 1.4,
-                                  fontWeight: FontWeight.w400,
-                                ),
+                                style: Theme.of(context).textTheme.bodyLarge
+                                    ?.copyWith(
+                                      fontSize: size.width * 0.04,
+                                      color: const Color(0xFF6B7280),
+                                      height: 1.4,
+                                      fontWeight: FontWeight.w400,
+                                    ),
                                 textAlign: TextAlign.center,
                               ),
                             ],
