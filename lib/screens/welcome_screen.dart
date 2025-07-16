@@ -138,61 +138,6 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                   ),
                 ),
               ],
-              // Language and theme switch buttons (top right)
-              Positioned(
-                top: 16,
-                right: 16,
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF1F5F9),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.language,
-                          color: Color(0xFF6366F1),
-                        ),
-                        tooltip: 'Switch Language',
-                        onPressed: () {
-                          final isEnglish =
-                              Localizations.localeOf(context).languageCode ==
-                              'en';
-                          widget.onLocaleChange(
-                            Locale(isEnglish ? 'ar' : 'en'),
-                          );
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF1F5F9),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: IconButton(
-                        icon: Icon(
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Icons.dark_mode
-                              : Icons.light_mode,
-                          color: const Color(0xFF6366F1),
-                        ),
-                        tooltip: 'Switch Theme',
-                        onPressed: () {
-                          widget.onThemeModeChange(
-                            Theme.of(context).brightness == Brightness.dark
-                                ? ThemeMode.light
-                                : ThemeMode.dark,
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               // Main content
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: size.width * 0.06),
@@ -375,6 +320,55 @@ class _WelcomeScreenState extends State<WelcomeScreen>
                       ),
                     ),
                     const SizedBox(height: 40),
+                  ],
+                ),
+              ),
+              // Language and theme switch buttons (top right for LTR, top left for RTL)
+              Positioned(
+                top: size.height * 0.03,
+                right: Directionality.of(context) == TextDirection.ltr
+                    ? size.width * 0.04
+                    : null,
+                left: Directionality.of(context) == TextDirection.rtl
+                    ? size.width * 0.04
+                    : null,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FloatingActionButton(
+                      heroTag: 'lang_welcome',
+                      mini: true,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      onPressed: () {
+                        final isEnglish =
+                            Localizations.localeOf(context).languageCode ==
+                            'en';
+                        widget.onLocaleChange(Locale(isEnglish ? 'ar' : 'en'));
+                      },
+                      tooltip: 'Switch Language',
+                      child: const Icon(Icons.language),
+                    ),
+                    SizedBox(width: size.width * 0.02),
+                    FloatingActionButton(
+                      heroTag: 'theme_welcome',
+                      mini: true,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      onPressed: () {
+                        widget.onThemeModeChange(
+                          Theme.of(context).brightness == Brightness.dark
+                              ? ThemeMode.light
+                              : ThemeMode.dark,
+                        );
+                      },
+                      tooltip: 'Switch Theme',
+                      child: Icon(
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Icons.dark_mode
+                            : Icons.light_mode,
+                      ),
+                    ),
                   ],
                 ),
               ),

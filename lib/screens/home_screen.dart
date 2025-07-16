@@ -280,43 +280,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             color: const Color(0xFF6366F1),
                             size: size.width * 0.05,
                           ),
-                          SizedBox(width: size.width * 0.01),
-                          IconButton(
-                            icon: Icon(
-                              Icons.language,
-                              color: const Color(0xFF6366F1),
-                              size: size.width * 0.05,
-                            ),
-                            tooltip: 'Switch Language',
-                            onPressed: () {
-                              final isEnglish =
-                                  Localizations.localeOf(
-                                    context,
-                                  ).languageCode ==
-                                  'en';
-                              widget.onLocaleChange(
-                                Locale(isEnglish ? 'ar' : 'en'),
-                              );
-                            },
-                          ),
-                          SizedBox(width: size.width * 0.01),
-                          IconButton(
-                            icon: Icon(
-                              Theme.of(context).brightness == Brightness.dark
-                                  ? Icons.dark_mode
-                                  : Icons.light_mode,
-                              color: const Color(0xFF6366F1),
-                              size: size.width * 0.05,
-                            ),
-                            tooltip: 'Switch Theme',
-                            onPressed: () {
-                              widget.onThemeModeChange(
-                                Theme.of(context).brightness == Brightness.dark
-                                    ? ThemeMode.light
-                                    : ThemeMode.dark,
-                              );
-                            },
-                          ),
                         ],
                       ),
                     ),
@@ -921,6 +884,54 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ],
+              ),
+              Positioned(
+                top: size.height * 0.03,
+                right: Directionality.of(context) == TextDirection.ltr
+                    ? size.width * 0.04
+                    : null,
+                left: Directionality.of(context) == TextDirection.rtl
+                    ? size.width * 0.04
+                    : null,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    FloatingActionButton(
+                      heroTag: 'lang_home',
+                      mini: true,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      onPressed: () {
+                        final isEnglish =
+                            Localizations.localeOf(context).languageCode ==
+                            'en';
+                        widget.onLocaleChange(Locale(isEnglish ? 'ar' : 'en'));
+                      },
+                      tooltip: 'Switch Language',
+                      child: const Icon(Icons.language),
+                    ),
+                    SizedBox(width: size.width * 0.02),
+                    FloatingActionButton(
+                      heroTag: 'theme_home',
+                      mini: true,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      onPressed: () {
+                        widget.onThemeModeChange(
+                          Theme.of(context).brightness == Brightness.dark
+                              ? ThemeMode.light
+                              : ThemeMode.dark,
+                        );
+                      },
+                      tooltip: 'Switch Theme',
+                      child: Icon(
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Icons.dark_mode
+                            : Icons.light_mode,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

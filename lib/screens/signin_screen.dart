@@ -374,61 +374,50 @@ class _SignInScreenState extends State<SignInScreen> {
                   ],
                 ),
               ),
-              // Language and theme switch buttons (top right/left)
+              // Add this to the Stack children (before main content):
               Positioned(
-                top: 16,
-                left: Directionality.of(context) == TextDirection.rtl
-                    ? 16
-                    : null,
+                top: size.height * 0.03,
                 right: Directionality.of(context) == TextDirection.ltr
-                    ? 16
+                    ? size.width * 0.04
+                    : null,
+                left: Directionality.of(context) == TextDirection.rtl
+                    ? size.width * 0.04
                     : null,
                 child: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF1F5F9),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: IconButton(
-                        icon: const Icon(
-                          Icons.language,
-                          color: Color(0xFF6366F1),
-                        ),
-                        tooltip: 'Switch Language',
-                        onPressed: () {
-                          final isEnglish =
-                              Localizations.localeOf(context).languageCode ==
-                              'en';
-                          widget.onLocaleChange(
-                            Locale(isEnglish ? 'ar' : 'en'),
-                          );
-                        },
-                      ),
+                    FloatingActionButton(
+                      heroTag: 'lang_signin',
+                      mini: true,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      onPressed: () {
+                        final isEnglish =
+                            Localizations.localeOf(context).languageCode ==
+                            'en';
+                        widget.onLocaleChange(Locale(isEnglish ? 'ar' : 'en'));
+                      },
+                      tooltip: 'Switch Language',
+                      child: const Icon(Icons.language),
                     ),
-                    const SizedBox(width: 8),
-                    Container(
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFF1F5F9),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: IconButton(
-                        icon: Icon(
+                    SizedBox(width: size.width * 0.02),
+                    FloatingActionButton(
+                      heroTag: 'theme_signin',
+                      mini: true,
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      onPressed: () {
+                        widget.onThemeModeChange(
                           Theme.of(context).brightness == Brightness.dark
-                              ? Icons.dark_mode
-                              : Icons.light_mode,
-                          color: const Color(0xFF6366F1),
-                        ),
-                        tooltip: 'Switch Theme',
-                        onPressed: () {
-                          widget.onThemeModeChange(
-                            Theme.of(context).brightness == Brightness.dark
-                                ? ThemeMode.light
-                                : ThemeMode.dark,
-                          );
-                        },
+                              ? ThemeMode.light
+                              : ThemeMode.dark,
+                        );
+                      },
+                      tooltip: 'Switch Theme',
+                      child: Icon(
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Icons.dark_mode
+                            : Icons.light_mode,
                       ),
                     ),
                   ],
